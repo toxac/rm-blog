@@ -1,0 +1,29 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+const posts = (await getCollection('blog')).sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+);
+---
+
+<BaseLayout title="Writing | Archive" description="A complete collection of published text.">
+  <h1 class="text-3xl font-bold tracking-tight text-stone-900 mb-2">Writing</h1>
+  <p class="text-stone-600 mb-12 text-sm">A full chronological list of thoughts, essays, and notes.</p>
+
+  <div class="space-y-8">
+    {posts.map((post) => (
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-1 md:gap-4 items-baseline py-4 border-b border-stone-100 last:border-0">
+        <time class="text-xs font-medium text-stone-400 md:col-span-1">
+          {post.data.pubDate.toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}
+        </time>
+        <div class="md:col-span-3">
+          <h2 class="text-base font-semibold tracking-tight text-stone-900 hover:text-stone-600 transition">
+            <a href={`/blog/${post.data.slug}`}>{post.data.title}</a>
+          </h2>
+          <p class="mt-1 text-sm text-stone-600 line-clamp-2 leading-relaxed">{post.data.description}</p>
+        </div>
+      </div>
+    ))}
+  </div>
+</BaseLayout>

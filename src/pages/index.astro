@@ -1,17 +1,53 @@
 ---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
 
+const allPosts = await getCollection('blog');
+// Sort chronologically descending and isolate the top 5
+const recentPosts = allPosts
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+  .slice(0, 5);
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<BaseLayout title="Home | Alex">
+  <section class="mb-16">
+    <h1 class="text-3xl font-bold tracking-tight text-stone-900 sm:text-4xl mb-4">
+      Hey, I'm Alex.
+    </h1>
+    <p class="text-stone-600 leading-relaxed text-base sm:text-lg">
+      I am a digital craftsman focused on minimal architectures and fast web performance. 
+      This is my quiet corner of the internet where I write down my thoughts on building clean code systems.
+    </p>
+  </section>
+
+  <section>
+    <div class="flex justify-between items-baseline mb-8">
+      <h2 class="text-lg font-semibold tracking-tight text-stone-900">Recent Writing</h2>
+      <a href="/blog" class="text-xs font-medium text-stone-500 hover:text-stone-900 transition underline decoration-stone-300 underline-offset-4">View all posts</a>
+    </div>
+
+    <div class="space-y-10">
+      {recentPosts.length === 0 ? (
+        <p class="text-sm text-stone-400 italic">No articles published yet.</p>
+      ) : (
+        recentPosts.map((post) => (
+          <article class="group relative flex flex-col items-start">
+            <h3 class="text-base font-semibold tracking-tight text-stone-900 group-hover:text-stone-600 transition">
+              <a href={`/blog/${post.data.slug}`}>
+                {/* Micro-interaction backdrop glow for mouse hover */}
+                <span class="absolute -inset-x-4 -inset-y-3 z-0 scale-95 bg-stone-100 opacity-0 transition group-hover:scale-100 group-hover:opacity-100 rounded-xl" />
+                <span class="relative z-10">{post.data.title}</span>
+              </a>
+            </h3>
+            <time class="relative z-10 order-first mb-1 flex items-center text-xs text-stone-400 font-medium">
+              {post.data.pubDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
+            </time>
+            <p class="relative z-10 mt-2 text-sm text-stone-600 line-clamp-2 leading-relaxed">
+              {post.data.description}
+            </p>
+          </article>
+        ))
+      )}
+    </div>
+  </section>
+</BaseLayout>
