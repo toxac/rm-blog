@@ -4,6 +4,8 @@ description: "Reflecting on one of Kyrah Design Studio's formative projects—a 
 pubDate: 2026-05-19
 author: "Rishika Miranda"
 slug: "foundations-studio-nambiar-bellezea"
+heroImage: "../../assets/blog/test.jpg"
+categories: ["projects"]
 tags: ["interior-architecture", "indian-craftsmanship", "studio-journey", "luxury-homes"]
 ---
 

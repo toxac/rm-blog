@@ -4,6 +4,8 @@ description: "Exploring how context shapes the value of Indian motifs and crafts
 pubDate: 2026-05-19
 author: "Rishika Miranda"
 slug: "context-confidence-indian-luxury-design"
+heroImage: "../../assets/blog/test.jpg"
+categories: ["reflections"]
 tags: ["design-philosophy", "indian-craftsmanship", "luxury-interiors", "visual-culture"]
 ---
 

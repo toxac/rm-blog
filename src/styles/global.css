@@ -1,2 +1,14 @@
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
+
+/* Register the custom font families into Tailwind v4's engine */
+@theme {
+  --font-display: "Plus Jakarta Sans", sans-serif;
+  --font-sans: "Inter", sans-serif;
+}
+
+/* Architectural Horizontal Line Engine */
+@utility bg-horizontal-lines {
+  background-size: 100% 32px; 
+  background-image: linear-gradient(to bottom, rgba(231, 229, 228, 0.5) 1px, transparent 1px);
+}

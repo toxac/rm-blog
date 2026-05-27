@@ -1,0 +1,56 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+// 1. Instruct Astro exactly which category routes to build statically
+export async function getStaticPaths() {
+  const categories = ['projects', 'events', 'resources'];
+  
+  return categories.map((category) => ({
+    params: { category },
+    props: { category },
+  }));
+}
+
+const { category } = Astro.props;
+
+// 2. Fetch all entries and filter by the active parameter
+const allPosts = await getCollection('blog');
+const filteredPosts = allPosts
+  .filter((post) => post.data.categories.includes(category as any))
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+---
+
+<BaseLayout title={`${category.charAt(0).toUpperCase() + category.slice(1)} | Rishika Miranda`}>
+  <header class="mb-12">
+    <h1 class="text-3xl font-bold tracking-tight text-stone-900 sm:text-4xl capitalize">
+      {category}
+    </h1>
+    <p class="text-stone-500 mt-2 text-sm">
+      Viewing all articles filed under {category}.
+    </p>
+  </header>
+
+  <div class="space-y-10">
+    {filteredPosts.length === 0 ? (
+      <p class="text-sm text-stone-400 italic py-6">No articles published in this archive stream yet.</p>
+    ) : (
+      filteredPosts.map((post) => (
+        <article class="group relative flex flex-col items-start">
+          <h2 class="text-base font-semibold tracking-tight text-stone-900 group-hover:text-stone-600 transition">
+            <a href={`/blog/${post.data.slug}`}>
+              <span class="absolute -inset-x-4 -inset-y-3 z-0 scale-95 bg-stone-100 opacity-0 transition group-hover:scale-100 group-hover:opacity-100 rounded-xl" />
+              <span class="relative z-10">{post.data.title}</span>
+            </a>
+          </h2>
+          <time datetime={post.data.pubDate.toISOString()} class="relative z-10 order-first mb-1 flex items-center text-xs text-stone-400 font-medium">
+            {post.data.pubDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
+          </time>
+          <p class="relative z-10 mt-2 text-sm text-stone-600 line-clamp-2 leading-relaxed">
+            {post.data.description}
+          </p>
+        </article>
+      ))
+    )}
+  </div>
+</BaseLayout>

@@ -4,6 +4,8 @@ description: "Exploring Godna tattooing as permanent identity, and how it shifts
 pubDate: 2026-05-26
 author: "Rishika Miranda"
 slug: "permanence-identity-godna-design"
+heroImage: "../../assets/blog/test.jpg"
+categories: ["reflections"]
 tags: ["design-philosophy", "culture", "identity", "motifs"]
 ---
 

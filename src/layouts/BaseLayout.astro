@@ -1,5 +1,7 @@
 ---
 import '../styles/global.css';
+import { Image } from 'astro:assets';
+import logoAsset from '../assets/logo.svg';
 
 interface Props {
   title: string;
@@ -24,42 +26,69 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site || 'https://rishikam
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonicalURL} />
-
-    <meta property="og:type" content={articleDate ? "article" : "website"} />
-    <meta property="og:url" content={canonicalURL} />
-    <meta property="og:title" content={title} />
-    <meta property="og:description" content={description} />
-    <meta property="og:image" content={new URL(ogImage, canonicalURL.origin)} />
-    {articleDate && <meta property="article:published_time" content={articleDate} />}
-
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:url" content={canonicalURL} />
-    <meta name="twitter:title" content={title} />
-    <meta name="twitter:description" content={description} />
-    <meta name="twitter:image" content={new URL(ogImage, canonicalURL.origin)} />
-
+    
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
   </head>
   
-  <body class="bg-stone-50 text-stone-900 antialiased font-sans selection:bg-stone-200 min-h-screen flex flex-col">
-    
-    <header class="max-w-2xl mx-auto w-full px-6 py-10 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-      <a href="/" class="font-bold text-lg tracking-tight text-stone-900 hover:text-stone-600 transition">
-        Rishika Miranda
-      </a>
-      <nav class="flex gap-6 text-sm font-medium text-stone-500">
-        <a href="/blog" class="hover:text-stone-900 transition">blog</a>
-        <a href="/about" class="hover:text-stone-900 transition">about</a>
-        <a href="/contact" class="hover:text-stone-900 transition">contact</a>
-      </nav>
-    </header>
-    
-    <main class="max-w-2xl mx-auto w-full px-6 py-6 flex-1">
-      <slot />
-    </main>
+  <body class="bg-stone-50 text-stone-900 bg-horizontal-lines antialiased font-sans selection:bg-stone-200 min-h-screen flex flex-col relative">
+    <div class="relative z-10 flex flex-col min-h-screen w-full">
+      
+      <header class="max-w-4xl mx-auto w-full px-6 sm:px-12 pt-12 pb-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+        <a href="/" class="transition-opacity duration-200 hover:opacity-70 flex items-center" aria-label="Rishika Miranda Home">
+          <Image 
+            src={logoAsset} 
+            alt="Rishika Miranda Logo" 
+            height={32}
+            class="h-8 w-auto object-contain"
+            loading="eager"
+          />
+        </a>
+        <nav class="flex flex-wrap gap-x-6 gap-y-1 text-sm font-medium text-stone-500">
+          <a href="/category/projects" class="hover:text-stone-900 transition">projects</a>
+          <a href="/category/events" class="hover:text-stone-900 transition">events</a>
+          <a href="/category/resources" class="hover:text-stone-900 transition">resources</a>
+          <a href="/about" class="hover:text-stone-900 transition">about</a>
+        </nav>
+      </header>
+      
+      <main class="max-w-4xl mx-auto w-full bg-white rounded-2xl border border-stone-200 shadow-sm px-6 py-8 sm:p-12 my-4 flex-1">
+        <slot />
+      </main>
 
-    <footer class="max-w-2xl mx-auto w-full px-6 py-12 border-t border-stone-200 text-xs text-stone-400 text-center">
-      &copy; {new Date().getFullYear()} Rishika Miranda. Built with Astro & Tailwind CSS.
-    </footer>
+      <footer class="max-w-4xl mx-auto w-full px-6 sm:px-12 py-12 text-xs text-stone-400 flex flex-col sm:flex-row justify-between items-center gap-4 border-t border-stone-200/40 sm:border-t-0 mt-4">
+        <div>
+          &copy; {new Date().getFullYear()} Rishika Miranda. All rights reserved.
+        </div>
+        
+        <div class="flex items-center gap-6 font-medium text-stone-500">
+          <a 
+            href="https://kyrah.in" 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            class="hover:text-stone-900 transition-colors duration-200"
+          >
+            kyrah.in
+          </a>
+          <a 
+            href="https://www.linkedin.com/in/rishika-miranda-163260329/" 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            class="hover:text-stone-900 transition-colors duration-200"
+          >
+            linkedin
+          </a>
+          <a 
+            href="https://www.instagram.com/rishikamiranda/" 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            class="hover:text-stone-900 transition-colors duration-200"
+          >
+            instagram
+          </a>
+        </div>
+      </footer>
+    </div>
   </body>
 </html>
